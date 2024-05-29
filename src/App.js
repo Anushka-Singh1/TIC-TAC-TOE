@@ -1,24 +1,43 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Game from './Game';
 import './App.css';
 
 function App() {
+  const [gridSize, setGridSize] = useState(3);
+  const [winStreak, setWinStreak] = useState(3);
+  const [startGame, setStartGame] = useState(false);
+
+  const handleStartGame = () => {
+    if (gridSize >= 3 && gridSize <= 10 && winStreak >= 3 && winStreak <= gridSize) {
+      setStartGame(true);
+    } else {
+      alert('Invalid input! Grid size should be 3-10 and win streak should be 3-gridSize.');
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+     {!startGame ? (
+        <div>
+          <h1>Customizable Tic-Tac-Toe</h1>
+          <div>
+            <label>
+              Grid Size (n):
+              <input type="number" value={gridSize} onChange={(e) => setGridSize(parseInt(e.target.value))} />
+            </label>
+          </div>
+          <div>
+            <label>
+              Win Streak (m):
+              <input type="number" value={winStreak} onChange={(e) => setWinStreak(parseInt(e.target.value))} />
+            </label>
+          </div>
+          <button onClick={handleStartGame}>Start Game</button>
+        </div>
+      ) : (
+        <Game gridSize={gridSize} winStreak={winStreak} />
+      )} 
+    </>
   );
 }
 
